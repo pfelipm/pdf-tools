@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Herramientas PDF</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="tabs-nav">
+            <nav>
+                <button id="tab-merge-btn" class="tab-btn active" data-i18n="tabMerge"></button>
+                <button id="tab-split-btn" class="tab-btn" data-i18n="tabSplit"></button>
+            </nav>
+        </div>
+
+        <!-- Contenido de Unir PDF -->
+        <div id="merge-content">
+            <div id="merge-drop-zone" class="drop-zone">
+                <input type="file" id="merge-file-input" multiple accept=".pdf" class="hidden">
+                <div class="drop-zone-content">
+                    <svg class="icon-upload" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    <p data-i18n="dropZoneText"></p>
+                    <p class="separator-text" data-i18n="dropZoneOr"></p>
+                    <button type="button" id="merge-browse-btn" class="btn-link" data-i18n="browseFiles"></button>
+                </div>
+            </div>
+            <div id="merge-file-list-area">
+                <div id="merge-file-list-container"></div>
+                <div class="text-center mt-4"><button id="merge-clear-all-btn" class="btn-link-danger hidden" data-i18n="clearAll"></button></div>
+            </div>
+            <div id="merge-progress-container" class="progress-container hidden">
+                <div id="merge-progress-bar" class="progress-bar"></div>
+            </div>
+            <p id="merge-progress-text" class="progress-text hidden"></p>
+            <div id="merge-error-message" class="error-message hidden"></div>
+            <div class="action-buttons">
+                <button id="merge-btn" class="btn btn-primary" disabled data-i18n="mergeAction"></button>
+                <a id="merge-download-btn" href="#" class="btn btn-success hidden" download="unido.pdf" data-i18n="downloadButton"></a>
+            </div>
+        </div>
+
+        <!-- Contenido de Dividir PDF -->
+        <div id="split-content" class="hidden">
+             <div id="split-file-area">
+                <div id="split-drop-zone" class="drop-zone">
+                    <input type="file" id="split-file-input" accept=".pdf" class="hidden">
+                    <div class="drop-zone-content">
+                        <svg class="icon-upload" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        <p data-i18n="dropZoneText"></p>
+                        <p class="separator-text" data-i18n="dropZoneOr"></p>
+                        <button type="button" id="split-browse-btn" class="btn-link" data-i18n="browseFile"></button>
+                    </div>
+                </div>
+                <div id="split-options-area" class="hidden">
+                    <div class="file-info-box">
+                        <div class="file-info-text">
+                            <p id="split-file-name"></p>
+                            <p id="split-file-pages"></p>
+                        </div>
+                        <button id="split-clear-btn" class="btn-link-danger" data-i18n="changeFile"></button>
+                    </div>
+                    <div class="split-options">
+                        <h3 data-i18n="splitOptionsTitle"></h3>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input id="split-mode-range" name="split-mode" type="radio" checked>
+                                <div class="radio-label-container">
+                                    <label for="split-mode-range" data-i18n="splitModeRangeLabel"></label>
+                                    <input type="text" id="split-range-input" class="text-input" data-i18n-placeholder="splitModeRangePlaceholder">
+                                </div>
+                            </div>
+                            <div class="radio-item">
+                                <input id="split-mode-all" name="split-mode" type="radio">
+                                <label for="split-mode-all" class="radio-label" data-i18n="splitModeAllLabel"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="split-progress-container" class="progress-container hidden"><div id="split-progress-bar" class="progress-bar"></div></div>
+            <p id="split-progress-text" class="progress-text hidden"></p>
+            <div id="split-error-message" class="error-message hidden"></div>
+            <div id="split-action-area" class="hidden">
+                <div class="action-buttons">
+                    <button id="split-btn" class="btn btn-primary" disabled data-i18n="splitAction"></button>
+                </div>
+            </div>
+            <div id="split-results-area" class="hidden">
+                <h3 data-i18n="generatedFilesTitle"></h3>
+                <div id="split-downloads-list"></div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="footer-credits">
+                <span data-i18n="footerAttribution"></span>
+                <a href="https://www.linkedin.com/in/pfelipm/" target="_blank" rel="noopener noreferrer">Pablo Felip</a>
+                <span>|</span>
+                <a href="https://github.com/pfelipm/pdf-tools" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </div>
+            <button id="lang-switcher" class="lang-switcher" data-tooltip=""></button>
+        </div>
+    </div>
+
+    <script src="libs/pdf-lib.min.js"></script>
+    <script src="libs/Sortable.min.js"></script>
+    <script src="panel.js"></script>
+</body>
+</html>
