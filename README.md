@@ -21,17 +21,9 @@ Esta extensión nace de la necesidad de tener a mano herramientas rápidas y efi
 * **Multi-idioma**: Interfaz disponible en inglés, español y catalán, con un selector para cambiar de idioma manualmente o usar el del navegador.
 * **Procesamiento local**: Todos los archivos se procesan en tu máquina. Ningún documento sale de tu navegador, garantizando el 100% de privacidad.
 
-<table>
-<tr>
-  <td><img src="./readme-files/PT 1280x800 EN 1.png"></td>
-  <td><img src="./readme-files/PT 1280x800 EN 3.png"></td>
-</tr>
-<tr>
-  <td><img src="./readme-files/PT 1280x800 EN 2.png"></td>
-  <td><img src="./readme-files/PT 1280x800 EN 4.png"></td>
-</tr>
-</td>
-</table>
+<p align="center">
+  <img src="./readme-files/Capturas.gif">
+</p>
 
 ## ⚙️ Descripción Técnica
 
