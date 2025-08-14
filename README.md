@@ -6,8 +6,6 @@
 
 **PDF_Tools** es una extensión ligera y potente para Google Chrome que integra herramientas de manipulación de archivos PDF directamente en tu navegador a través de un moderno panel lateral. Une y divide documentos PDF con facilidad, sin necesidad de instalar software pesado ni depender de servicios en línea.
 
-## 🤔 ¿Qué es PDF_Tools?
-
 Esta extensión nace de la necesidad de tener a mano herramientas rápidas y eficientes para las tareas más comunes con archivos PDF. En lugar de abrir aplicaciones de escritorio o subir archivos sensibles a la web, PDF_Tools procesa todo localmente en tu navegador, garantizando velocidad y privacidad.
 
 ## ✨ Características Principales
@@ -17,7 +15,7 @@ Esta extensión nace de la necesidad de tener a mano herramientas rápidas y efi
     * **Arrastrar y soltar**: Añade archivos fácilmente arrastrándolos a la interfaz.
     * **Reordenación visual**: Cambia el orden de los archivos antes de unirlos simplemente arrastrándolos en la lista.
 * **Dividir PDF**: Extrae páginas o rangos de un PDF.
-    * **Extracción Flexible**: Define rangos (`1-5, 8, 10-`) o extrae páginas individuales.
+    * **Extracción flexible**: Define rangos (`1-5, 8, 10-`) o extrae páginas individuales.
     * **División completa**: Genera un PDF por cada página del documento original con un solo clic.
 * **Compresión en ZIP**: Descarga todos los archivos generados en la división dentro de un único archivo `.zip` para mayor comodidad.
 * **Multi-idioma**: Interfaz disponible en inglés, español y catalán, con un selector para cambiar de idioma manualmente o usar el del navegador.
@@ -32,10 +30,6 @@ PDF_Tools está construido con tecnologías web estándar y sigue las mejores pr
 * **API de panel lateral (`chrome.sidePanel`)**: Se utiliza la API nativa de Chrome para mostrar la interfaz en un panel lateral, ofreciendo una experiencia de usuario integrada.
 * **API de internacionalización (`chrome.i18n`)**: El soporte multi-idioma se gestiona a través de la API `i18n` de Chrome, permitiendo una localización eficiente.
 * **API de almacenamiento (`chrome.storage`)**: La preferencia de idioma del usuario se guarda localmente usando `chrome.storage.local`.
-
-## 🚀 Instalación
-
-Al ser una extensión no empaquetada, puedes instalarla localmente para desarrollo o uso personal siguiendo estos pasos:
 
 ## 🚀 Instalación
 
