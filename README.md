@@ -10,6 +10,10 @@ Esta extensión nace de la necesidad de tener a mano herramientas rápidas y efi
 
 ## ✨ Características Principales
 
+<p align="center">
+  <img src="./readme-files/Capturas.gif">
+</p>
+
 * **Panel lateral moderno**: Accede a todas las herramientas desde un cómodo panel lateral (`Side Panel API`) sin interrumpir tu navegación.
 * **Unir PDF**: Combina múltiples archivos PDF en un único documento.
     * **Arrastrar y soltar**: Añade archivos fácilmente arrastrándolos a la interfaz.
@@ -20,10 +24,6 @@ Esta extensión nace de la necesidad de tener a mano herramientas rápidas y efi
 * **Compresión en ZIP**: Descarga todos los archivos generados en la división dentro de un único archivo `.zip` para mayor comodidad.
 * **Multi-idioma**: Interfaz disponible en inglés, español y catalán, con un selector para cambiar de idioma manualmente o usar el del navegador.
 * **Procesamiento local**: Todos los archivos se procesan en tu máquina. Ningún documento sale de tu navegador, garantizando el 100% de privacidad.
-
-<p align="center">
-  <img src="./readme-files/Capturas.gif">
-</p>
 
 ## ⚙️ Descripción Técnica
 
