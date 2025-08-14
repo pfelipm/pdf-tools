@@ -3,6 +3,7 @@
 <p align="center">
   <img src="./readme-files/PT destacado 540x357.png">
 </p>
+Replace `"Add LICENSE file and other changes"` with a clear and concise commit message that describes the changes you're committing.
 
 **PDF_Tools** es una extensión ligera y potente para Google Chrome que integra herramientas de manipulación de archivos PDF directamente en tu navegador a través de un moderno panel lateral. Une y divide documentos PDF con facilidad, sin necesidad de instalar software pesado ni depender de servicios en línea.
 
