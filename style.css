@@ -412,3 +412,23 @@ h1 {
 .footer-credits a:hover {
     text-decoration: underline;
 }
+
+/* --- ESTILOS PARA CHECKBOX (ZIP) --- */
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--gray-200);
+}
+.checkbox-item input[type="checkbox"] {
+    height: 1rem;
+    width: 1rem;
+    color: var(--blue-600);
+    border-color: var(--gray-300);
+}
+.checkbox-label {
+    margin-left: 0.75rem;
+    font-weight: 500;
+    color: var(--gray-700);
+}

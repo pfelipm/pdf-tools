@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "__MSG_appName__",
-  "version": "1.1",
-  "description": "__MSG_mergeDescription__",
+  "version": "1.0",
+  "description": "__MSG_appDescription__",
   "default_locale": "en",
   "permissions": [
     "sidePanel",

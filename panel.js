@@ -22,55 +22,36 @@ document.addEventListener('DOMContentLoaded', () => {
         let langToUse = currentLangMode;
         if (langToUse === 'auto') {
             let uiLang = chrome.i18n.getUILanguage().split('-')[0];
-            // Fallback para euskera y gallego a español
-            if (['eu', 'gl'].includes(uiLang)) {
-                uiLang = 'es';
-            }
-            langToUse = ['en', 'es', 'ca'].includes(uiLang) ? uiLang : 'en'; // 'en' como fallback final
+            if (['eu', 'gl'].includes(uiLang)) { uiLang = 'es'; }
+            langToUse = ['en', 'es', 'ca'].includes(uiLang) ? uiLang : 'en';
         }
-
         const messages = await getLocaleMessages(langToUse);
         let message = messages[key]?.message || '';
-
         if (substitutions && typeof substitutions === 'object') {
             message = message.replace(/\{(\w+)\}/g, (match, placeholderKey) => {
                 return substitutions.hasOwnProperty(placeholderKey) ? substitutions[placeholderKey] : match;
             });
         }
-
         return message;
     }
 
     async function applyLocalization() {
-        // Actualizar textos estáticos
         document.querySelectorAll('[data-i18n]').forEach(async elem => {
-            const key = elem.getAttribute('data-i18n');
-            elem.textContent = await getTranslatedMessage(key);
+            elem.textContent = await getTranslatedMessage(elem.getAttribute('data-i18n'));
         });
-
-        // Actualizar placeholders
         document.querySelectorAll('[data-i18n-placeholder]').forEach(async elem => {
-            const key = elem.getAttribute('data-i18n-placeholder');
-            elem.placeholder = await getTranslatedMessage(key);
+            elem.placeholder = await getTranslatedMessage(elem.getAttribute('data-i18n-placeholder'));
         });
-
         document.title = await getTranslatedMessage('appName');
-
-        // Actualizar el interruptor de idioma
-        langSwitcher.textContent = langIcons[currentLangMode];
         const langKeyMap = { auto: 'langAuto', es: 'langSpanish', en: 'langEnglish' };
-        const langKey = langKeyMap[currentLangMode];
-        const langName = await getTranslatedMessage(langKey);
+        const langName = await getTranslatedMessage(langKeyMap[currentLangMode]);
+        langSwitcher.textContent = langIcons[currentLangMode];
         langSwitcher.dataset.tooltip = await getTranslatedMessage('langSwitcherTooltip', { lang: langName });
-
-        // CORRECCIÓN: Volver a traducir los mensajes de estado final si es necesario.
         if (mergeModule.isComplete()) {
-            const mergeProgressText = document.getElementById('merge-progress-text');
-            mergeProgressText.textContent = await getTranslatedMessage('progressComplete');
+            document.getElementById('merge-progress-text').textContent = await getTranslatedMessage('progressComplete');
         }
         if (splitModule.isComplete()) {
-            const splitProgressText = document.getElementById('split-progress-text');
-            splitProgressText.textContent = await getTranslatedMessage('progressComplete');
+            document.getElementById('split-progress-text').textContent = await getTranslatedMessage('progressComplete');
         }
     }
 
@@ -102,7 +83,6 @@ document.addEventListener('DOMContentLoaded', () => {
             mergeContent.classList.remove('hidden');
             splitContent.classList.add('hidden');
         });
-
         tabSplitBtn.addEventListener('click', () => {
             tabSplitBtn.classList.add('active');
             tabMergeBtn.classList.remove('active');
@@ -115,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- SECCIÓN DE UNIR PDF ---
     // ========================================================================
     const mergeModule = (() => {
-        let isTaskComplete = false; // Estado para rastrear si la tarea finalizó
+        let isTaskComplete = false;
         const dropZone = document.getElementById('merge-drop-zone');
         const fileInput = document.getElementById('merge-file-input');
         const browseBtn = document.getElementById('merge-browse-btn');
@@ -133,12 +113,14 @@ document.addEventListener('DOMContentLoaded', () => {
             selectedFiles = [];
             fileInput.value = null;
             isTaskComplete = false;
+            progressContainer.classList.add('hidden');
+            progressText.classList.add('hidden');
+            hideError();
             updateFileListUI();
         }
 
         async function handleFiles(files) {
-            hideError();
-            isTaskComplete = false;
+            hideError(); isTaskComplete = false;
             const pdfFiles = Array.from(files).filter(file => file.type === 'application/pdf');
             if (pdfFiles.length === 0 && files.length > 0) {
                 showError(await getTranslatedMessage('errorOnlyPdf'));
@@ -204,8 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
         function hideError() { errorMessage.classList.add('hidden'); }
 
         function setProcessingState(isProcessing, text = '') {
-            mergeBtn.disabled = isProcessing;
-            browseBtn.disabled = isProcessing;
+            mergeBtn.disabled = isProcessing; browseBtn.disabled = isProcessing;
             dropZone.style.pointerEvents = isProcessing ? 'none' : 'auto';
             if (isProcessing) {
                 progressContainer.classList.remove('hidden');
@@ -243,8 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const mergedPdf = await PDFDocument.create();
                 for (let i = 0; i < selectedFiles.length; i++) {
                     await updateProgress(i + 1, selectedFiles.length);
-                    const fileWrapper = selectedFiles[i];
-                    const fileArrayBuffer = await fileWrapper.file.arrayBuffer();
+                    const fileArrayBuffer = await selectedFiles[i].file.arrayBuffer();
                     const pdfToMerge = await PDFDocument.load(fileArrayBuffer, { ignoreEncryption: true });
                     const copiedPages = await mergedPdf.copyPages(pdfToMerge, pdfToMerge.getPageIndices());
                     copiedPages.forEach((page) => mergedPdf.addPage(page));
@@ -258,7 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 downloadBtn.href = url;
                 downloadBtn.classList.remove('hidden');
                 setProcessingState(false, await getTranslatedMessage('progressComplete'));
-                isTaskComplete = true; // Marcar tarea como completada
+                isTaskComplete = true;
             } catch (error) {
                 showError(await getTranslatedMessage('errorGeneric'));
                 setProcessingState(false);
@@ -272,7 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- SECCIÓN DE DIVIDIR PDF ---
     // ========================================================================
     const splitModule = (() => {
-        let isTaskComplete = false; // Estado para rastrear si la tarea finalizó
+        let isTaskComplete = false;
         const dropZone = document.getElementById('split-drop-zone');
         const fileInput = document.getElementById('split-file-input');
         const browseBtn = document.getElementById('split-browse-btn');
@@ -285,6 +265,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const fileNameEl = document.getElementById('split-file-name');
         const filePagesEl = document.getElementById('split-file-pages');
         const rangeInput = document.getElementById('split-range-input');
+        const zipCheckbox = document.getElementById('split-mode-zip');
         const progressContainer = document.getElementById('split-progress-container');
         const progressBar = document.getElementById('split-progress-bar');
         const progressText = document.getElementById('split-progress-text');
@@ -293,9 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function reset() {
             sourcePdf = { file: null, doc: null, totalPages: 0 };
-            fileInput.value = '';
-            rangeInput.value = '';
-            isTaskComplete = false;
+            fileInput.value = ''; rangeInput.value = ''; isTaskComplete = false;
             dropZone.classList.remove('hidden');
             optionsArea.classList.add('hidden');
             actionArea.classList.add('hidden');
@@ -404,34 +383,57 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             setProcessingState(true);
             downloadsList.innerHTML = '';
+            const originalFileName = sourcePdf.file.name.replace(/\.pdf$/i, '');
+
             try {
-                const originalFileName = sourcePdf.file.name.replace(/\.pdf$/i, '');
-                for (let i = 0; i < pageGroups.length; i++) {
-                    await updateProgress(i + 1, pageGroups.length);
-                    const pageGroup = pageGroups[i];
-                    const newPdfDoc = await PDFDocument.create();
-                    const copiedPages = await newPdfDoc.copyPages(sourcePdf.doc, pageGroup.map(p => p - 1));
-                    copiedPages.forEach(page => newPdfDoc.addPage(page));
-                    const pdfBytes = await newPdfDoc.save();
-                    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-                    const url = URL.createObjectURL(blob);
-                    let newFileName;
-                    if (pageGroup.length === 1) {
-                        newFileName = await getTranslatedMessage('fileNamePage', {baseName: originalFileName, page: pageGroup[0]});
-                    } else {
-                        newFileName = await getTranslatedMessage('fileNamePages', {baseName: originalFileName, start: pageGroup[0], end: pageGroup[pageGroup.length - 1]});
+                if (zipCheckbox.checked) {
+                    const zip = new JSZip();
+                    for (let i = 0; i < pageGroups.length; i++) {
+                        await updateProgress(i + 1, pageGroups.length);
+                        const pageGroup = pageGroups[i];
+                        const newPdfDoc = await PDFDocument.create();
+                        const copiedPages = await newPdfDoc.copyPages(sourcePdf.doc, pageGroup.map(p => p - 1));
+                        copiedPages.forEach(page => newPdfDoc.addPage(page));
+                        const pdfBytes = await newPdfDoc.save();
+                        const newFileName = pageGroup.length === 1
+                            ? await getTranslatedMessage('fileNamePage', {baseName: originalFileName, page: pageGroup[0]})
+                            : await getTranslatedMessage('fileNamePages', {baseName: originalFileName, start: pageGroup[0], end: pageGroup[pageGroup.length - 1]});
+                        zip.file(newFileName, pdfBytes);
                     }
+                    const zipBlob = await zip.generateAsync({type:"blob"});
+                    const url = URL.createObjectURL(zipBlob);
                     const link = document.createElement('a');
                     link.href = url;
-                    link.download = newFileName;
-                    link.textContent = newFileName;
-                    link.className = "download-link";
+                    link.download = `${originalFileName}_dividido.zip`;
+                    link.className = "btn btn-success"; // Reutilizamos el estilo de botón de éxito
+                    link.textContent = await getTranslatedMessage('downloadZipButton');
                     downloadsList.appendChild(link);
+
+                } else {
+                    for (let i = 0; i < pageGroups.length; i++) {
+                        await updateProgress(i + 1, pageGroups.length);
+                        const pageGroup = pageGroups[i];
+                        const newPdfDoc = await PDFDocument.create();
+                        const copiedPages = await newPdfDoc.copyPages(sourcePdf.doc, pageGroup.map(p => p - 1));
+                        copiedPages.forEach(page => newPdfDoc.addPage(page));
+                        const pdfBytes = await newPdfDoc.save();
+                        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+                        const url = URL.createObjectURL(blob);
+                        const newFileName = pageGroup.length === 1
+                            ? await getTranslatedMessage('fileNamePage', {baseName: originalFileName, page: pageGroup[0]})
+                            : await getTranslatedMessage('fileNamePages', {baseName: originalFileName, start: pageGroup[0], end: pageGroup[pageGroup.length - 1]});
+                        const link = document.createElement('a');
+                        link.href = url;
+                        link.download = newFileName;
+                        link.textContent = newFileName;
+                        downloadsList.appendChild(link);
+                    }
                 }
                 resultsArea.classList.remove('hidden');
                 setProcessingState(false, await getTranslatedMessage('progressComplete'));
-                isTaskComplete = true; // Marcar tarea como completada
+                isTaskComplete = true;
             } catch (e) {
+                console.error("Error al dividir:", e);
                 showError(await getTranslatedMessage('errorGeneric'));
                 setProcessingState(false);
             }
@@ -443,7 +445,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function resetUI() {
         mergeModule.reset();
         splitModule.reset();
-        // Asegurar que solo la pestaña de unir esté visible al inicio
         tabMergeBtn.classList.add('active');
         tabSplitBtn.classList.remove('active');
         mergeContent.classList.remove('hidden');
