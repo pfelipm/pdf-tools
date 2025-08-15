@@ -39,7 +39,7 @@ PDF_Tools está construido con tecnologías web estándar y sigue las mejores pr
 
 ### Opción 1: Desde la Chrome Web Store (recomendado)
 
-1.  Visita la [página de PDF_Tools]() en la Chrome Web Store.
+1.  Visita la [página de PDF_Tools](https://chromewebstore.google.com/detail/amfbkjdnaalliclaenmafeohionnkmoa) en la Chrome Web Store.
 2.  Haz clic en "Añadir a Chrome".
 3.  ¡Listo! Ya puedes usar la extensión.
 
