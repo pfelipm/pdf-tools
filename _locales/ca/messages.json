@@ -41,5 +41,6 @@
     "langSwitcherTooltip": { "message": "Canviar idioma (Actual: {lang})" },
     "langAuto": { "message": "Automàtic" },
     "langSpanish": { "message": "Espanyol" },
-    "langEnglish": { "message": "Anglès" }
+    "langEnglish": { "message": "Anglès" },
+    "actionTitle": { "message": "Obrir PDF_Tools" }
 }

@@ -15,7 +15,7 @@
     "default_path": "panel.html"
   },
   "action": {
-    "default_title": "Abrir Herramientas PDF"
+    "default_title": "__MSG_actionTitle__"
   },
   "icons": {
     "16": "images/icon16.png",
