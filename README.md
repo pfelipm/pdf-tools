@@ -27,7 +27,7 @@ Esta extensión nace de la necesidad de tener a mano herramientas rápidas y efi
 
 ## ⚙️ Descripción Técnica
 
-PDF_Tools está construido con tecnologías web estándar y sigue las mejores prácticas para el desarrollo de extensiones de Chrome.
+PDF_Tools está construida con tecnologías web estándar y sigue las mejores prácticas para el desarrollo de extensiones de Chrome.
 
 * **Manifest V3**: La extensión utiliza la última versión del manifiesto de Chrome, garantizando mayor seguridad, rendimiento y compatibilidad a futuro.
 * **JavaScript (vanilla JS)**: Toda la lógica de la aplicación está escrita en JavaScript puro, sin dependencias de frameworks, lo que asegura un rendimiento óptimo y un tamaño de paquete reducido.
@@ -70,3 +70,9 @@ Este proyecto no sería posible sin el excelente trabajo de la comunidad de cód
 ## ✊ Licencia
 
 Este proyecto se distribuye bajo los términos del archivo [LICENSE](/LICENSE).
+
+## 🦊 Versión para Firefox
+
+[Juan José de Haro](https://bilateria.org/) ha tenido la gentileza de preparar una versión de PDF_Tools para Firefox. La puedes encontrar en su propio [repositorio GitHub](https://github.com/jjdeharo/pdf-tools-for-firefox).
+
+¡Esta es la fuerza del código abierto!
