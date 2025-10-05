@@ -1,3 +1,5 @@
+[🇬🇧 English version](./README-en.md) | [🐉 Versió en català](./README-ca.md)
+
 # PDF_Tools
 
 <p align="center">
